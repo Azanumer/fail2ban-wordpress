@@ -1,0 +1,17 @@
+# /etc/fail2ban/jail.d/wordpress-login.local
+#
+# Bans IPs that hammer wp-login.php / xmlrpc.php.
+# Copy to /etc/fail2ban/jail.d/wordpress-login.local, then:
+#   sudo systemctl restart fail2ban
+#   sudo fail2ban-client status wordpress-login
+
+[wordpress-login]
+enabled  = true
+port     = http,https
+filter   = wordpress-login
+# Adjust logpath to your web server. Covers both Nginx and Apache defaults.
+logpath  = /var/log/nginx/*access.log
+           /var/log/apache2/*access.log
+maxretry = 5
+findtime = 10m
+bantime  = 1h
